@@ -38,3 +38,8 @@ msbuild.wrn
 
 # Windows thumbnail cache files
 Thumbs.db
+
+# ASP .Net Core Web
+bin
+obj
+appsettings.json

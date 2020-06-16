@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>7c50fbbc-9142-49cf-9c87-c7dace99971b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JobBoard.BusinessLogic\JobBoard.BusinessLogic.csproj" />
+    <ProjectReference Include="..\JobBoard.Entities\JobBoard.Entities.csproj" />
+  </ItemGroup>
+
+
+
+</Project>
