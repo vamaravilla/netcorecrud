@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobBoard.Entity
+namespace JobBoard.Entities
 {
     public class JobEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string JobId { get; set; }
+        public int JobId { get; set; }
         [StringLength(100)]
         [Required]
         public string Title { get; set; }
