@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["JobBoardWeb/JobBoardWeb.csproj", "JobBoardWeb/"]
-RUN dotnet restore "JobBoardWeb/JobBoardWeb.csproj"
+COPY ["JobBoard.Web/JobBoard.Web.csproj", "JobBoardWeb/"]
+RUN dotnet restore "JobBoard.Web/JobBoard.Web.csproj"
 COPY . .
-WORKDIR "/src/JobBoardWeb"
-RUN dotnet build "JobBoardWeb.csproj" -c Release -o /app/build
+WORKDIR "/src/JobBoard.Web"
+RUN dotnet build "JobBoard.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "JobBoardWeb.csproj" -c Release -o /app/publish
+RUN dotnet publish "JobBoard.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "JobBoardWeb.dll"]
+ENTRYPOINT ["dotnet", "JobBoard.Web.dll"]

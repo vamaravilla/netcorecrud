@@ -4,22 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using JobBoard.Entities;
+using Microsoft.Extensions.Configuration;
+using JobBoard.BusinessLogic;
 
-namespace JobBoardWeb.Pages
+namespace JobBoard.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        /// <summary>
+        /// Business Logic Object to Backend CRUD Operations
+        /// </summary>
+        private JobBusinessLogic logic;
+        public IList<JobEntity> JobEntity { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IConfiguration configuration)
         {
-            _logger = logger;
+            logic = new JobBusinessLogic(configuration);
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-
+            JobEntity = await logic.ListJobs();
         }
     }
 }

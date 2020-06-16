@@ -1,6 +1,7 @@
 ﻿using JobBoard.DataAccess;
 using JobBoard.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,25 @@ namespace JobBoard.BusinessLogic
 {
     public class JobBusinessLogic
     {
+        private readonly IConfiguration Configuration;
+
+        /// <summary>
+        /// Constructor using IConfiguration to get Connection string
+        /// if null use InMemory
+        /// </summary>
+        /// <param name="configuration"></param>
+        public JobBusinessLogic(IConfiguration configuration = null)
+        {
+            Configuration = configuration;
+        }
+
         /// <summary>
         /// List all jobs
         /// </summary>
         /// <returns>List of Job objects</returns>
         public async Task<List<JobEntity>> ListJobs()
         {
-            using var db = new JobBoardContext();
+            using var db = new JobBoardContext(Configuration);
             return await db.Jobs.ToListAsync();
         }
 
@@ -26,7 +39,7 @@ namespace JobBoard.BusinessLogic
         /// <returns>Job object</returns>
         public async Task<JobEntity> GetJob(int idJob)
         {
-            using var db = new JobBoardContext();
+            using var db = new JobBoardContext(Configuration);
             return await db.Jobs.FirstOrDefaultAsync(m => m.JobId == idJob);
         }
 
@@ -36,7 +49,7 @@ namespace JobBoard.BusinessLogic
         /// <returns>boolean</returns>
         public bool JobExists(int idJob)
         {
-            using var db = new JobBoardContext();
+            using var db = new JobBoardContext(Configuration);
             return db.Jobs.Any(e => e.JobId == idJob);
         }
 
@@ -47,7 +60,7 @@ namespace JobBoard.BusinessLogic
         /// <param name="newJob">New Job object</param>
         public async Task<int> CreateJob(JobEntity newJob)
         {
-            using var db = new JobBoardContext();
+            using var db = new JobBoardContext(Configuration);
             db.Jobs.Add(newJob);
             return await db.SaveChangesAsync();
         }
@@ -58,8 +71,9 @@ namespace JobBoard.BusinessLogic
         /// <param name="job">Job object</param>
         public async Task<int> UpdateJob(JobEntity oJob)
         {
-            using var db = new JobBoardContext();
-            db.Jobs.Update(oJob);
+            using var db = new JobBoardContext(Configuration);
+            db.Attach(oJob).State = EntityState.Modified;
+            //db.Jobs.Update(oJob);
             return await db.SaveChangesAsync();
         }
 
@@ -69,7 +83,7 @@ namespace JobBoard.BusinessLogic
         /// <param name="job">Job object</param>
         public async Task<int> DeleteJob(JobEntity job)
         {
-            using var db = new JobBoardContext();
+            using var db = new JobBoardContext(Configuration);
             db.Jobs.Remove(job);
             return await db.SaveChangesAsync();
         }

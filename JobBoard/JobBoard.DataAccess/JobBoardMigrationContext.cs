@@ -14,7 +14,7 @@ namespace JobBoard.DataAccess
             if (!options.IsConfigured)
             {
                 IConfigurationBuilder builder = new ConfigurationBuilder();
-                builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 
                 // Configuration for SQL Server, but It can be any database  supported for EF
                 var root = builder.Build();
