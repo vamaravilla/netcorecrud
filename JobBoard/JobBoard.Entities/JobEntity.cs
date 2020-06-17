@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,8 +15,10 @@ namespace JobBoard.Entities
         public string Title { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime ExpiresAt { get; set; }
+        [Display(Name = "Created")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        [Display(Name = "Expires")]
+        public DateTime ExpiresAt { get; set; } = DateTime.Now.AddDays(1);
 
     }
 }
