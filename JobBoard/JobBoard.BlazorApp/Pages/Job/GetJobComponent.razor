@@ -1,0 +1,52 @@
+﻿@page "/jobs"
+
+@using JobBoard.Entities
+@using JobBoard.BusinessLogic
+
+
+<p>
+    <a href="/jobs/add" class="btn btn-primary">Create New</a>
+</p>
+@if (jobList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in jobList)
+            {
+                <tr>
+                    <td>@job.Title</td>
+                    <td>@job.Description</td>
+                    <td>@job.CreatedAt</td>
+                    <td>@job.ExpiresAt</td>
+                    <td>
+                        <a href='/jobs/edit/@job.JobId'>Edit</a>  |
+                        <a href='/jobs/delete/@job.JobId'>Delete</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    JobEntity[] jobList;
+    JobBusinessLogic logic = new JobBusinessLogic();
+
+    protected override async Task OnInitializedAsync()
+    {
+        jobList = (await logic.ListJobs()).ToArray();
+    }
+}

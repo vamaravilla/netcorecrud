@@ -44,6 +44,16 @@ namespace JobBoard.BusinessLogic
         }
 
         /// <summary>
+        /// Get a job by ID
+        /// </summary>
+        /// <returns>Job object</returns>
+        public JobEntity GetJobSync(int idJob)
+        {
+            using var db = new JobBoardContext(Configuration);
+            return db.Jobs.FirstOrDefault(m => m.JobId == idJob);
+        }
+
+        /// <summary>
         /// Check if a job exists
         /// </summary>
         /// <returns>boolean</returns>

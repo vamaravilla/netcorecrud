@@ -1,0 +1,85 @@
+﻿@page "/jobs/edit/{jobId}"
+
+@using JobBoard.Entities
+@using JobBoard.BusinessLogic
+@inject Microsoft.AspNetCore.Components.NavigationManager navigation
+
+<h4>Edit Job</h4>
+<hr />
+
+<EditForm Model="@job" OnValidSubmit="HandleValidSubmit">
+
+
+    <div class="form-group row">
+        <label for="Tittle" class="col-sm-2 col-form-label">Tittle</label>
+        <div class="col-sm-10">
+            <InputText id="tittle" @bind-Value="job.Title" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <InputTextArea id="description" @bind-Value="job.Description" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ExpiresAt" class="col-sm-2 col-form-label">Expires</label>
+        <div class="col-sm-10">
+            <InputDate id="expiresAt" @bind-Value="job.ExpiresAt" class="form-control" />
+        </div>
+    </div>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <!--<input type="button" value="Create" class="btn btn-primary" @onclick="async () => await CreateJob()" /> -->
+        <button type="submit" class="btn btn-primary">Update</button>
+        <input type="button" value="Cancel" class="btn btn-secondary" @onclick="Cancel" />
+    </div>
+</EditForm>
+
+
+
+@code {
+
+    [ParameterAttribute]
+    public string jobId { get; set; }
+
+
+    JobEntity job = new JobEntity();
+    JobBusinessLogic logic = new JobBusinessLogic();
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        int id;
+        if(int.TryParse(jobId,out id))
+        {
+            job = await logic.GetJob(id);
+            if (job == null)
+            {
+                navigation.NavigateTo("/notfound");
+            }
+        }
+        else
+        {
+            navigation.NavigateTo("/notfound");
+        }
+
+    }
+
+
+    private async void HandleValidSubmit()
+    {
+        await logic.UpdateJob(job);
+        navigation.NavigateTo("/jobs");
+    }
+
+
+    void Cancel()
+    {
+        navigation.NavigateTo("/jobs");
+    }
+
+
+}

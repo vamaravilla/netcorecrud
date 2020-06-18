@@ -1,0 +1,62 @@
+﻿@page "/jobs/add"
+
+@using JobBoard.Entities
+@using JobBoard.BusinessLogic
+@inject Microsoft.AspNetCore.Components.NavigationManager navigation
+
+<h4>Create Job</h4>
+<hr />
+
+<EditForm Model="@job" OnValidSubmit="HandleValidSubmit">
+
+
+    <div class="form-group row">
+        <label for="Tittle" class="col-sm-2 col-form-label">Tittle</label>
+        <div class="col-sm-10">
+            <InputText id="tittle" @bind-Value="job.Title" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <InputTextArea id="description" @bind-Value="job.Description" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="CreatedAt" class="col-sm-2 col-form-label">Expires</label>
+        <div class="col-sm-10">
+            <InputDate id="createdAt" @bind-Value="job.CreatedAt" class="form-control" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ExpiresAt" class="col-sm-2 col-form-label">Expires</label>
+        <div class="col-sm-10">
+            <InputDate id="expiresAt" @bind-Value="job.ExpiresAt" class="form-control" />
+        </div>
+    </div>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <!--<input type="button" value="Create" class="btn btn-primary" @onclick="async () => await CreateJob()" /> -->
+        <button type="submit" class="btn btn-primary">Save</button>
+        <input type="button" value="Cancel" class="btn btn-secondary" @onclick="Cancel" />
+    </div>
+</EditForm>
+
+
+
+@code {
+
+    JobEntity job = new JobEntity();
+    JobBusinessLogic logic = new JobBusinessLogic();
+
+    void Cancel()
+    {
+        navigation.NavigateTo("/jobs");
+    }
+    private async void HandleValidSubmit()
+    {
+        await logic.CreateJob(job);
+        navigation.NavigateTo("/jobs");
+    }
+}
