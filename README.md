@@ -47,6 +47,7 @@ Also you can check a Blazor App (Alternative UI solution):
 * [Entity Framework Core 3.1](https://docs.microsoft.com/en-us/ef/core/get-started/?tabs=netcore-cli) - ORM
 * [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) - Used to build a interactive web UI
 * [Azure SQL Database](https://azure.microsoft.com/es-es/services/sql-database/) - Cloud storage
+* [Swagger UI](https://swagger.io/tools/swagger-ui/) - Used to the API visual documentation
 
 ## Author ✒️
 
